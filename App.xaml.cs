@@ -1,34 +1,35 @@
 ﻿using System;
-using ZahariaDeliaLab7.Data;
 using System.IO;
+using ZahariaDeliaLab7.Data;
+using ZahariaDeliaLab7.Models;
+
 namespace ZahariaDeliaLab7
 {
     public partial class App : Application
     {
+        static ShopListDatabase database;
 
-        static ShoppingListDatabase database;
-        public static ShoppingListDatabase Database
+        public static ShopListDatabase Database
         {
             get
             {
                 if (database == null)
                 {
-                    database = new
-                   ShoppingListDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.
-                   LocalApplicationData), "ShoppingList.db3"));
+                    database = new ShopListDatabase(
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ShoppingList.db3"));
                 }
                 return database;
             }
         }
+
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new ListPage
+            {
+                BindingContext = new ShopList()
+            });
         }
 
- //       protected override Window CreateWindow(IActivationState? activationState)
- //       {
-  //          return new Window(new AppShell());
-    //    }
     }
 }

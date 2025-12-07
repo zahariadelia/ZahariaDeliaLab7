@@ -1,34 +1,38 @@
-using ZahariaDeliaLab7.Models;
+﻿using System;
+using Microsoft.Maui.Controls;
 
-namespace ZahariaDeliaLab7;
-
-public partial class ListEntryPage : ContentPage
+namespace ZahariaDeliaLab7
 {
-	public ListEntryPage()
-	{
-		InitializeComponent();
-	}
-    protected override async void OnAppearing()
+    public partial class ListEntryPage : ContentPage
     {
-        base.OnAppearing();
-        listView.ItemsSource = await App.Database.GetShopListsAsync();
-    }
-    async void OnShopListAddedClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new ListPage
+        public ListEntryPage()
         {
-            BindingContext = new ShopList()
-        });
-    }
-    async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
-    {
-        if (e.SelectedItem != null)
+            InitializeComponent();
+        }
+
+        private void OnShopListAddedClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ListPage
+            DisplayAlert("Add", "Shopping list added!", "OK");
+        }
+
+        private void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem != null)
             {
-                BindingContext = e.SelectedItem as ShopList
-            });
+                DisplayAlert("Item Selected", "Ai selectat un element din listă.", "OK");
+
+                listView.SelectedItem = null;
+            }
+        }
+
+        private void OnSaveButtonClicked(object sender, EventArgs e)
+        {
+            DisplayAlert("Save", "Item saved!", "OK");
+        }
+
+        private void OnDeleteButtonClicked(object sender, EventArgs e)
+        {
+            DisplayAlert("Delete", "Item deleted!", "OK");
         }
     }
-
 }
